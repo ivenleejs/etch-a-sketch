@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>Etch-a-Sketch</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src='./script.js' defer></script>
+    </head>
+    <body>
+        <div id='sidebar'>
+            <div id='title'>Etch-a-Sketch</div>
+            <hr>
+            <div class='sub'>Options</div>
+            <button id='rainbowbutton'>Rainbow Mode</button>
+            <div class='sub'>Adjust Size</div>
+            <div class='little'>maximum size is 100 x 100!</div>
+            <div class='sizecontainer'>
+                <input type='text' value='16' id='sizeinput'>
+                <button id='applybutton'>Apply</button>
+            </div>
+            <div class='little' id='currentsize'>current grid size: 16 x 16</div>
+            <hr>
+            <button id='clearbutton'>Clear</button>
+            <div class='credit'>created by ivenleejs as part of The Odin Project</div>
+        </div>
+        <div id='grid'></div>
+
+    </body>
+</html>
