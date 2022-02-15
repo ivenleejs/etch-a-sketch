@@ -10,6 +10,7 @@ gridContainer.style.width = `${DRAWINGWIDTH}px`;
 
 // Assigning existing HTML elements to variables
 const grid = document.querySelector('#grid');
+const skittlesButton = document.querySelector('#skittlesbutton');
 const rainbowButton = document.querySelector('#rainbowbutton');
 const sizeInput = document.querySelector('#sizeinput');
 const applySizeButton = document.querySelector('#applybutton');
@@ -20,9 +21,16 @@ const clearButton = document.querySelector('#clearbutton');
 let border = false;
 let selectedColor = 'black';
 let rainbowToggle = false;
+let skittlesToggle = false;
+
+// Adding mousedown to draw
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 generateGrid(gridNo);
 clearButton.addEventListener('click', clearBoard);
+skittlesButton.addEventListener('click', skittlesMode);
 rainbowButton.addEventListener('click', rainbowMode);
 applySizeButton.addEventListener('click', setGridSize);
 
@@ -50,10 +58,36 @@ function generateGrid(gridNo) {
             div.style.width = `${DRAWINGWIDTH / gridNo}px`
             div.style.height = `${DRAWINGWIDTH / gridNo}px`
             
-            div.addEventListener('mouseenter', e => {
-                div.style.backgroundColor = selectedColor;
+            div.addEventListener('mouseenter', () => {
+                if (mouseDown) {
+                    if (rainbowToggle == true) {
+                        selectedColor = rainbowGenerator();
+                        div.classList.remove('rainbow-bg');
+                        div.style.backgroundColor = selectedColor;
+                    }
+                    
+                    else if (skittlesToggle == true) {
+                        div.classList.add('rainbow-bg');
+                    }
+                    else {
+                        div.classList.remove('rainbow-bg');
+                        div.style.backgroundColor = selectedColor;
+                    }
+                }
+            })
+            div.addEventListener('click', () => {
                 if (rainbowToggle == true) {
                     selectedColor = rainbowGenerator();
+                    div.classList.remove('rainbow-bg');
+                    div.style.backgroundColor = selectedColor;
+                }
+                
+                else if (skittlesToggle == true) {
+                    div.classList.add('rainbow-bg');
+                }
+                else {
+                    div.classList.remove('rainbow-bg');
+                    div.style.backgroundColor = selectedColor;
                 }
             })
             gridContainer.appendChild(div);
@@ -86,11 +120,27 @@ function setGridSize() {
 function rainbowMode() {
     if (!rainbowToggle) {
         rainbowButton.classList.add('selected');
+        skittlesButton.classList.remove('rainbow-bg');
         rainbowToggle = true;
+        skittlesToggle = false;
     }
     else {
         rainbowButton.classList.remove('selected');
         rainbowToggle = false;
+        selectedColor = 'black';
+    }
+}
+
+function skittlesMode() {
+    if (!skittlesToggle) {
+        skittlesButton.classList.add('rainbow-bg');
+        rainbowButton.classList.remove('selected');
+        skittlesToggle = true;
+        rainbowToggle = false;
+    }
+    else {
+        skittlesButton.classList.remove('rainbow-bg');
+        skittlesToggle = false;
         selectedColor = 'black';
     }
 }
