@@ -12,6 +12,7 @@ gridContainer.style.width = `${DRAWINGWIDTH}px`;
 const grid = document.querySelector('#grid');
 const skittlesButton = document.querySelector('#skittlesbutton');
 const rainbowButton = document.querySelector('#rainbowbutton');
+const eraseButton = document.querySelector('#erasebutton');
 const sizeInput = document.querySelector('#sizeinput');
 const applySizeButton = document.querySelector('#applybutton');
 const gridSizeDisplay = document.querySelector('#currentsize');
@@ -22,6 +23,7 @@ let border = false;
 let selectedColor = 'black';
 let rainbowToggle = false;
 let skittlesToggle = false;
+let eraseToggle = false;
 
 // Adding mousedown to draw
 let mouseDown = false;
@@ -32,6 +34,7 @@ generateGrid(gridNo);
 clearButton.addEventListener('click', clearBoard);
 skittlesButton.addEventListener('click', skittlesMode);
 rainbowButton.addEventListener('click', rainbowMode);
+eraseButton.addEventListener('click', eraseMode);
 applySizeButton.addEventListener('click', setGridSize);
 
 // Functions
@@ -69,6 +72,10 @@ function generateGrid(gridNo) {
                     else if (skittlesToggle == true) {
                         div.classList.add('rainbow-bg');
                     }
+                    else if (eraseToggle == true) {
+                        div.classList.remove('rainbow-bg');
+                        div.style.backgroundColor = 'white';
+                    }
                     else {
                         div.classList.remove('rainbow-bg');
                         div.style.backgroundColor = selectedColor;
@@ -101,6 +108,7 @@ function generateGrid(gridNo) {
 function clearBoard() {
     const boxes = document.querySelectorAll('.grid-box');
     boxes.forEach( (boxes) => boxes.style.backgroundColor = 'white')
+    boxes.forEach( (boxes) => boxes.classList.remove('rainbow-bg'))
 }
 
 function setGridSize() {
@@ -121,8 +129,10 @@ function rainbowMode() {
     if (!rainbowToggle) {
         rainbowButton.classList.add('selected');
         skittlesButton.classList.remove('rainbow-bg');
+        eraseButton.classList.remove('selected');
         rainbowToggle = true;
         skittlesToggle = false;
+        eraseToggle = false;
     }
     else {
         rainbowButton.classList.remove('selected');
@@ -135,12 +145,30 @@ function skittlesMode() {
     if (!skittlesToggle) {
         skittlesButton.classList.add('rainbow-bg');
         rainbowButton.classList.remove('selected');
+        eraseButton.classList.remove('selected');
         skittlesToggle = true;
         rainbowToggle = false;
+        eraseToggle = false;
     }
     else {
         skittlesButton.classList.remove('rainbow-bg');
         skittlesToggle = false;
+        selectedColor = 'black';
+    }
+}
+
+function eraseMode() {
+    if (!eraseToggle) {
+        eraseButton.classList.add('selected');
+        rainbowButton.classList.remove('selected');
+        skittlesButton.classList.remove('rainbow-bg');
+        eraseToggle = true;
+        rainbowToggle = false;
+        skittlesToggle = false;
+    }
+    else {
+        eraseButton.classList.remove('selected');
+        eraseToggle = false;
         selectedColor = 'black';
     }
 }
